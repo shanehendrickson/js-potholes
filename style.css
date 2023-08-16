@@ -7,8 +7,9 @@ body {
 #road {
     width: 400px;
     height: 600px;
-    border: 10px solid silver;
-    background-color: whitesmoke;
+    border-left: 10px solid silver;
+    border-right: 10px solid silver;
+    background-color: lightgray;
 
     margin: 20px auto;
     display: flex;
@@ -18,9 +19,9 @@ body {
 #road div {
     width: 48px;
     height: 48px;
-    border: 1px solid slategray;
+    border: 1px dotted lemonchiffon;
 
-    font-size: 24px;
+    font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,8 +29,8 @@ body {
 }
 
 .tile-clicked {
-    background-color: silver;
-    border: 1px solid silver;
+    background-color: dimgray;
+    border: 1px solid lemonchiffon;
 }
 
 .holes1 {
