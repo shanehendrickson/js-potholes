@@ -60,7 +60,9 @@ function checkTile() {
 
     if (holesLocation.includes(roadTile.id)) {
         gameOver = true;
+        document.getElementById('titlecard').innerText = '💥Drove Into Pothole💥'
         revealPotholes();
+
         return;
     }
 
@@ -130,6 +132,10 @@ function checkPothole(r, c) {
         checkPothole(r + 1, c); // DOWN one from clicked tile
         checkPothole(r + 1, c + 1); // DOWN and RIGHT one from clicked tile
     }
+
+    if(tilesChecked == rows * cols - holesCount){
+        document.getElementById('titlecard').innerText = '🚧Potholes Avoided!🚧'
+    }
 }
 
 function checkRoadTile(r, c) {
@@ -143,4 +149,3 @@ function checkRoadTile(r, c) {
 }
 
 // testing only
-console.log(holesLocation);
