@@ -4,6 +4,25 @@ body {
     text-align: center;
 }
 
+header {
+    padding: 0.5em;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+}
+
+header a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+header a i {
+    font-size: 2rem;
+}
+
 #road {
     width: 400px;
     height: 600px;
