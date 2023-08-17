@@ -28,7 +28,7 @@ body {
     cursor: pointer;
 }
 
-.tile-clicked {
+.tile-checked {
     background-color: dimgray;
     border: 1px solid lemonchiffon;
 }

@@ -5,7 +5,7 @@ let cols = 8;
 let holesCount = 10;
 let holesLocation = [];
 
-let roadCleared = 0;
+let tilesChecked = 0;
 
 let gameOver = false;
 
@@ -37,62 +37,110 @@ function startGame() {
         let row = [];
         for (let c = 0; c < cols; c++) {
             //create a new div element inside the road div
-            let tile = document.createElement("div");
-            tile.id = r.toString() + "-" + c.toString();
-            tile.addEventListener('click', clickTile);
-            tile.addEventListener('contextmenu', placeBarrier);
-            document.getElementById("road").append(tile); // add the newly created tile
-            row.push(tile);
+            let roadTile = document.createElement("div");
+            roadTile.id = r.toString() + "-" + c.toString();
+            roadTile.addEventListener("click", checkTile);
+            roadTile.addEventListener("contextmenu", placeBarrier);
+            document.getElementById("road").append(roadTile); // add the newly created tile
+            row.push(roadTile);
         }
         road.push(row);
     }
-    console.log(road);
+
     placePotholes();
 }
 
 // click a road tile
-function clickTile(){
-    if (gameOver || this.classList.contains('tile-clicked')){
+function checkTile() {
+    if (gameOver || this.classList.contains("tile-checked")) {
         return;
     }
 
-    let tile = this;
+    let roadTile = this;
 
-    if (holesLocation.includes(tile.id)){
-        alert('GAME OVER');
+    if (holesLocation.includes(roadTile.id)) {
         gameOver = true;
         revealPotholes();
         return;
     }
-    
+
+    let coords = roadTile.id.split("-"); // turns '0-0' into ['0', '0']
+    let r = parseInt(coords[0]);
+    let c = parseInt(coords[1]);
+    checkPothole(r, c);
 }
 
 // place a barrier - right click
-function placeBarrier(e){
-    e.preventDefault()
-    let tile = this;
+function placeBarrier(e) {
+    e.preventDefault();
+    let roadTile = this;
 
-    if(tile.innerText == ''){
-        tile.innerText = '🚧'
-    } else if (tile.innerText == '🚧'){
-        tile.innerText = '';
+    if (roadTile.innerText == "") {
+        roadTile.innerText = "🚧";
+    } else if (roadTile.innerText == "🚧") {
+        roadTile.innerText = "";
     }
     return;
 }
 
 // reveal potholes
-function revealPotholes(){
-    for(let r = 0; r < rows; r++){
-        for(let c = 0; c < cols; c++){
-            let tile = road[r][c];
-            if(holesLocation.includes(tile.id)){
-                tile.innerText = '🕳️';
+function revealPotholes() {
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            let roadTile = road[r][c];
+            if (holesLocation.includes(roadTile.id)) {
+                roadTile.innerText = "🕳️";
             }
         }
     }
 }
 
 // check for potholes
+function checkPothole(r, c) {
+    if (r < 0 || r >= rows || c < 0 || c >= cols) {
+        return;
+    }
+    if (road[r][c].classList.contains('tile-checked')){
+        return;
+    }
+
+    road[r][c].classList.add('tile-checked');
+    tilesChecked += 1;
+
+    potholesDiscovered = 0;
+    potholesDiscovered += checkRoadTile(r - 1, c - 1); // UP and LEFT one from clicked tile
+    potholesDiscovered += checkRoadTile(r - 1, c); // UP one from clicked tile
+    potholesDiscovered += checkRoadTile(r - 1, c + 1); // UP and RIGHT one from clicked tile
+    potholesDiscovered += checkRoadTile(r, c - 1); // LEFT one from clicked tile
+    potholesDiscovered += checkRoadTile(r, c + 1); // RIGHT one from clicked tile
+    potholesDiscovered += checkRoadTile(r + 1, c - 1); // DOWN and LEFT one from clicked tile
+    potholesDiscovered += checkRoadTile(r + 1, c); // DOWN one from clicked tile
+    potholesDiscovered += checkRoadTile(r + 1, c + 1); // DOWN and RIGHT one from clicked tile
+
+    if (potholesDiscovered > 0) {
+        road[r][c].innerText = potholesDiscovered;
+        road[r][c].classList.add("holes" + potholesDiscovered.toString());
+    } else {
+        checkPothole(r - 1, c - 1); // UP and LEFT one from clicked tile
+        checkPothole(r - 1, c); // UP one from clicked tile
+        checkPothole(r - 1, c + 1); // UP and RIGHT one from clicked tile
+        checkPothole(r, c - 1); // LEFT one from clicked tile
+        checkPothole(r, c + 1); // RIGHT one from clicked tile
+        checkPothole(r + 1, c - 1); // DOWN and LEFT one from clicked tile
+        checkPothole(r + 1, c); // DOWN one from clicked tile
+        checkPothole(r + 1, c + 1); // DOWN and RIGHT one from clicked tile
+    }
+}
+
+function checkRoadTile(r, c) {
+    if (r < 0 || r >= rows || c < 0 || c >= cols) {
+        return 0;
+    }
+    if (holesLocation.includes(r.toString() + "-" + c.toString())) {
+        return 1;
+    }
+    return 0;
+}
 
 // testing only
 console.log(holesLocation);
