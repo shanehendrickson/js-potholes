@@ -1,0 +1,24 @@
+{
+    "name": "js-potholes",
+    "version": "1.0.0",
+    "description": "Potholes - A Minesweeper Game",
+    "main": "app.js",
+    "scripts": {
+        "test": "test",
+        "start": "http-server -c-1 --proxy http://localhost:8080? -p 8080"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/shanehendrickson/js-potholes.git"
+    },
+    "author": "Shane Hendrickson",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/shanehendrickson/js-potholes/issues"
+    },
+    "homepage": "https://github.com/shanehendrickson/js-potholes#readme",
+    "type": "module",
+    "dependencies": {
+        "http-server": "^14.1.1"
+    }
+}

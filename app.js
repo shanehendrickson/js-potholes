@@ -1,3 +1,5 @@
+import { GameManager } from './components';
+
 let road = [];
 let rows = 12;
 let cols = 8;
@@ -11,7 +13,8 @@ let gameOver = false;
 
 // load the game
 window.onload = function () {
-    startGame();
+    // startGame();
+    new GameManager();
 };
 
 // set potholes
@@ -32,23 +35,23 @@ function placePotholes() {
 }
 
 // start the game
-function startGame() {
-    for (let r = 0; r < rows; r++) {
-        let row = [];
-        for (let c = 0; c < cols; c++) {
-            //create a new div element inside the road div
-            let roadTile = document.createElement("div");
-            roadTile.id = r.toString() + "-" + c.toString();
-            roadTile.addEventListener("click", checkTile);
-            roadTile.addEventListener("contextmenu", placeBarrier);
-            document.getElementById("road").append(roadTile); // add the newly created tile
-            row.push(roadTile);
-        }
-        road.push(row);
-    }
+// function startGame() {
+//     for (let r = 0; r < rows; r++) {
+//         let row = [];
+//         for (let c = 0; c < cols; c++) {
+//             //create a new div element inside the road div
+//             let roadTile = document.createElement("div");
+//             roadTile.id = r.toString() + "-" + c.toString();
+//             roadTile.addEventListener("click", checkTile);
+//             roadTile.addEventListener("contextmenu", placeBarrier);
+//             document.getElementById("road").append(roadTile); // add the newly created tile
+//             row.push(roadTile);
+//         }
+//         road.push(row);
+//     }
 
-    placePotholes();
-}
+//     placePotholes();
+// }
 
 // click a road tile
 function checkTile() {
